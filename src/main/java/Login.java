@@ -5,14 +5,14 @@ public class Login {
 
     private static Login singleton;
     private ArrayList<User> users;
-    private boolean isLoggedIn;
+    private User user;
 
     private Login () {
         users = new ArrayList<> ();
         users.add (new User ("x", "y"));
         users.add (new User ("a", "b"));
         users.add (new User ("k", "l"));
-        isLoggedIn = false;
+        user = null;
     }
 
     public static Login getInstance () {
@@ -24,20 +24,25 @@ public class Login {
         return singleton;
     }
 
-    private User getUser (String name) {
+    private boolean userExists (String name) {
 
         for (User user : users) {
             if (user.getName ().equals (name)) {
-                return user;
+                this.user = user;
+                return true;
             }
         }
 
-        return null;
+        return false;
+    }
+
+    public boolean userIsAuthenticated () {
+        return user != null;
     }
 
     public boolean isAuthenticated () {
 
-        if (isLoggedIn) {
+        if (userIsAuthenticated ()) {
             return true;
         }
         else {
@@ -48,16 +53,13 @@ public class Login {
 
                 System.out.println ("=================");
                 System.out.print("Met welke gebruikersnaam wilt u inloggen? ");
-                String gebruikersnaam = scanner.nextLine();
-                System.out.print("Graag het bijbehorende password: ");
+                String userName = scanner.nextLine();
+                System.out.print ("Graag het bijbehorende password: ");
                 String password = scanner.nextLine();
                 System.out.println ("=================");
 
-                User user = getUser (gebruikersnaam);
-
-                if (user != null && user.isPasswordCorrect (password)) {
+                if (userExists (userName) && user.passwordIsCorrect(password)) {
                     System.out.println ();
-                    isLoggedIn = true;
                     return true;
                 }
 
