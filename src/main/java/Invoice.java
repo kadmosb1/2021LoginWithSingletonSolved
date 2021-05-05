@@ -6,7 +6,7 @@ public class Invoice {
     private Login login;
 
     public Invoice () {
-        login = new Login ();
+        login = Login.getInstance ();
     }
 
     private int getNextInvoiceNumber () {

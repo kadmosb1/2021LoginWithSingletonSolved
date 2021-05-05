@@ -8,7 +8,8 @@ public class Customer {
     private String city;
 
     public Customer (String name, String address, String zipcode, String city) {
-        login = new Login ();
+
+        login = Login.getInstance ();
 
         if (login.isAuthenticated ()) {
             this.name = name;
