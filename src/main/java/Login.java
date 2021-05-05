@@ -25,6 +25,7 @@ public class Login {
     }
 
     private User getUser (String name) {
+
         for (User user : users) {
             if (user.getName ().equals (name)) {
                 return user;
@@ -54,7 +55,7 @@ public class Login {
 
                 User user = getUser (gebruikersnaam);
 
-                if (user != null && user.getPassword().equals(password)) {
+                if (user != null && user.isPasswordCorrect (password)) {
                     System.out.println ();
                     isLoggedIn = true;
                     return true;

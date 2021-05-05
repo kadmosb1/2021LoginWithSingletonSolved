@@ -12,7 +12,7 @@ public class User {
         return name;
     }
 
-    public String getPassword () {
-        return password;
+    public boolean isPasswordCorrect (String password) {
+        return password.equals (this.password);
     }
 }
