@@ -1,6 +1,5 @@
 public class Login {
-
-    public static boolean isAuthenticated () {
+    public boolean isAuthenticated () {
         return true;
     }
 }

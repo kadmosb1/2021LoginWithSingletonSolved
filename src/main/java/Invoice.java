@@ -3,6 +3,11 @@ import java.util.ArrayList;
 public class Invoice {
 
     private static int nextInvoiceNumber = 0;
+    private Login login;
+
+    public Invoice () {
+        login = new Login ();
+    }
 
     private int getNextInvoiceNumber () {
         nextInvoiceNumber += 13;
@@ -13,7 +18,7 @@ public class Invoice {
 
         double totalPrice = 0.0;
 
-        if (Login.isAuthenticated ()) {
+        if (login.isAuthenticated ()) {
             
             System.out.printf("Invoicenumber: %d%n%n", getNextInvoiceNumber());
             System.out.println(customer);
