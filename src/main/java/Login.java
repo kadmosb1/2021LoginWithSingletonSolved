@@ -5,14 +5,14 @@ public class Login {
 
     private static Login singleton;
     private ArrayList<User> users;
-    private User user;
+    private User loggedInUser;
 
     private Login () {
         users = new ArrayList<> ();
         users.add (new User ("x", "y"));
         users.add (new User ("a", "b"));
         users.add (new User ("k", "l"));
-        user = null;
+        loggedInUser = null;
     }
 
     public static Login getInstance () {
@@ -24,20 +24,19 @@ public class Login {
         return singleton;
     }
 
-    private boolean userExists (String name) {
+    private User userExists (String name) {
 
         for (User user : users) {
             if (user.getName ().equals (name)) {
-                this.user = user;
-                return true;
+                return user;
             }
         }
 
-        return false;
+        return null;
     }
 
-    public boolean userIsAuthenticated () {
-        return user != null;
+    private boolean userIsAuthenticated () {
+        return loggedInUser != null;
     }
 
     public boolean isAuthenticated () {
@@ -48,6 +47,7 @@ public class Login {
         else {
 
             Scanner scanner = new Scanner(System.in);
+            Logging logging = Logging.getInstance ();
 
             for (int i = 0; i < 3; i++) {
 
@@ -58,17 +58,32 @@ public class Login {
                 String password = scanner.nextLine();
                 System.out.println ("=================");
 
-                if (userExists (userName) && user.passwordIsCorrect(password)) {
+                User user = userExists (userName);
+
+                if (user != null && user.passwordIsCorrect(password)) {
+                    this.loggedInUser = user;
+                    logging.printLog ("Gebruiker is ingelogd");
                     System.out.println ();
                     return true;
                 }
 
                 System.out.println ("De combinatie van gebruikersnaam en password is niet OK.");
+                logging.printLog (String.format ("Het is gebruiker met gebruikersnaam '%s' niet gelukt om in te loggen", userName));
             }
 
             System.out.println ("=================");
             System.out.println ();
             return false;
         }
+
+    }
+
+    public String getUserName () {
+
+        if (loggedInUser == null) {
+            return "";
+        }
+
+        return loggedInUser.getName ();
     }
 }

@@ -3,10 +3,8 @@ import java.util.ArrayList;
 public class Invoice {
 
     private static int nextInvoiceNumber = 0;
-    private Login login;
 
     public Invoice () {
-        login = Login.getInstance ();
     }
 
     private int getNextInvoiceNumber () {
@@ -17,8 +15,9 @@ public class Invoice {
     public void printInvoice (Customer customer, ArrayList<InvoiceLine> lines) {
 
         double totalPrice = 0.0;
+        Logging logging = Logging.getInstance ();
 
-        if (login.isAuthenticated ()) {
+        if (Login.getInstance ().isAuthenticated ()) {
             
             System.out.printf("Invoicenumber: %d%n%n", getNextInvoiceNumber());
             System.out.println(customer);
@@ -33,9 +32,10 @@ public class Invoice {
 
             System.out.printf ("%56s----------%n", "");
             System.out.printf ("%56s€ %8.2f%n", "", totalPrice);
+            logging.printLog (String.format ("Er is een factuur opgesteld met nummer %d", nextInvoiceNumber));
         }
         else {
-            System.out.println("Niet ingelogd");
+            logging.printLog ("Gebruiker is niet ingelogd en kan daarom geen klant aanmaken");
         }
     }
 }
